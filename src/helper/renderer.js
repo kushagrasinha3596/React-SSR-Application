@@ -5,6 +5,7 @@ import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import serialize from 'serialize-javascript';
+import { Helmet } from 'react-helmet';
 
 export const rendererHelper = (req, store, context) => {
     const content = ReactDOMServer.renderToString(
@@ -15,9 +16,14 @@ export const rendererHelper = (req, store, context) => {
         </Provider>
     );
     
+    const helmet = Helmet.renderStatic();
+
     return `
     <html>
-    <head></head>
+    <head>
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
+    </head>
     <body>
         <div id="root">${content}</div>
         <script>
